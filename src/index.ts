@@ -16,7 +16,6 @@ app.listen(port, async () => {
 	try {
 		await createConnection({
 			type: "postgres",
-			// url: "postgres://emwlubda:RfgqswCOB1le3ISCCR13UDVEacuErt6O@ziggy.db.elephantsql.com:5432/emwlubda",
 			url: process.env.DATABASE_URL,
 			entities: ["build/entity/**/*.js"],
 			synchronize: true,
