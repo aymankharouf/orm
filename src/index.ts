@@ -3,12 +3,14 @@ import express from 'express'
 import {createConnection} from "typeorm";
 import {User} from "./entity/User";
 import dotenv from "dotenv"
+import authRouter from './routes/auth'
 
 dotenv.config()
 const port = process.env.PORT
 const app = express()
 app.use(express.json())
 app.get('/', (_, res) => res.send('hello world'))
+app.use('/api/auth', authRouter)
 app.listen(port, async () => {
 	console.log(`server running on port ${port}`)
 	try {
@@ -23,14 +25,6 @@ app.listen(port, async () => {
 			}
 		})
 		console.log('database connected')
-		const user = new User();
-    user.firstName = "test";
-		user.lastName = "test";
-		await user.save();
-		console.log("Saved a new user with id: " + user.id);
-		console.log("Loading users from the database...");
-    const users = await User.find()
-    console.log("Loaded users: ", users);
 	} catch (err) {
 		console.error(err)
 	}
