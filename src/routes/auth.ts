@@ -58,6 +58,7 @@ const register = async (req: Request, res: Response) => {
 
 const login = async (req: Request, res: Response) => {
   try {
+    console.log('env ===== ', process.env.NODE_ENV)
     const { email, password } = req.body
     let errors: errorType = {}
     if (isEmpty(email)) errors.email = 'email must be not empty'

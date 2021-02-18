@@ -31,6 +31,7 @@ app.get('/', (_, res) => res.send('hello world'))
 app.use('/api/auth', authRouter)
 app.listen(port, async () => {
 	console.log(`server running on port ${port}`)
+	console.log('origin == ', process.env.ORIGIN)
 	try {
 		await createConnection({
 			type: "postgres",
