@@ -14,7 +14,6 @@ interface errorType {
 
 const register = async (req: Request, res: Response) => {
   try {
-    console.log('before register')
     const { email, name, password } = req.body
     let errors: errorType = {}
     if (isEmpty(name)) errors.name = 'name must be not empty'
@@ -44,19 +43,12 @@ const register = async (req: Request, res: Response) => {
       maxAge: 3600,
       path: '/'
     })
-    res.set('Access-Control-Allow-Origin', req.headers.origin); //req.headers.origin
-		res.set('Access-Control-Allow-Credentials', 'true');
-		res.set(
-			'Access-Control-Expose-Headers',
-			'date, etag, access-control-allow-origin, access-control-allow-credentials'
-			);
-    // res.set('Set-Cookie', cookie.serialize('token', token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === 'production',
-    //   sameSite: 'strict',
-    //   maxAge: 3600,
-    //   path: '/'
-    // }))
+    // res.set('Access-Control-Allow-Origin', req.headers.origin); //req.headers.origin
+		// res.set('Access-Control-Allow-Credentials', 'true');
+		// res.set(
+		// 	'Access-Control-Expose-Headers',
+		// 	'date, etag, access-control-allow-origin, access-control-allow-credentials'
+		// 	);
     res.json(user)
   } catch (err) {
     console.error(err)
@@ -75,17 +67,35 @@ const login = async (req: Request, res: Response) => {
     const userId = user.id
     if (passwordMatch) {
       const token = jwt.sign({ userId }, process.env.JWT_SECRET)
-      res.set('Set-Cookie', cookie.serialize('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 3600,
-        path: '/'
-      }))
+      res.set(
+        'Set-Cookie',
+        cookie.serialize('token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          maxAge: 3600,
+          path: '/',
+        })
+      )
+      // res.cookie('token', token, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === 'production',
+      //   sameSite: 'lax',
+      //   maxAge: 3600,
+      //   path: '/',
+      // })
+      // res.set('Access-Control-Allow-Origin', req.headers.origin); //req.headers.origin
+      // res.set('Access-Control-Allow-Credentials', 'true');
+      // res.set(
+      //   'Access-Control-Expose-Headers',
+      //   'date, etag, access-control-allow-origin, access-control-allow-credentials'
+      //   );
+  
       res.json(user)
     } else res.status(401).json({error : 'password is not correct'})
   } catch (err) {
     console.error(err)
+    console.log('could not find user with this email')
     res.status(404).json({error: err.message})
   }
 }
@@ -111,14 +121,14 @@ const getUsers = async (req: Request, res: Response) => {
 }
 
 const logout = (req: Request, res: Response) => {
-  res.set('Set-Cookie', cookie.serialize('token', '', {
+  res.cookie('token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    expires: new Date(),
+    sameSite: 'lax',
+    maxAge: 0,
     path: '/'
-  }))
-  res.status(200).json({ success: true} )
+  })
+  res.status(200).json({ success: true})
 }
 const router = Router()
 router.post('/register', register)
