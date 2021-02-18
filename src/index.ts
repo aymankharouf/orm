@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express, { NextFunction, Request, Response } from 'express'
+import express from 'express'
 import {createConnection} from "typeorm";
 import dotenv from "dotenv"
 import authRouter from './routes/auth'
@@ -11,13 +11,16 @@ const port = process.env.PORT
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-	origin: process.env.ORIGIN,
-	optionsSuccessStatus: 200,
-	credentials: true,
-	// preflightContinue: false,
-	// methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-}))
+if (process.env.NODE_ENV === 'development') {
+	app.use(cors({
+		origin: process.env.ORIGIN,
+		optionsSuccessStatus: 200,
+		credentials: true,
+		// preflightContinue: false,
+		// methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	}))
+
+}
 // app.use((req: Request, res: Response, next: NextFunction) => {
 // 		res.set('Access-Control-Allow-Origin', 'http://localhost:3000'); //req.headers.origin
 // 		res.set('Access-Control-Allow-Credentials', 'true');
