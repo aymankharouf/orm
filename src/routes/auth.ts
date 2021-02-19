@@ -77,12 +77,12 @@ const login = async (req: Request, res: Response) => {
           path: '/',
         })
       )
-      // res.set('Access-Control-Allow-Origin', req.headers.origin); //req.headers.origin
-      // res.set('Access-Control-Allow-Credentials', 'true');
-      // res.set(
-      //   'Access-Control-Expose-Headers',
-      //   'date, etag, access-control-allow-origin, access-control-allow-credentials'
-      //   );
+      res.set('Access-Control-Allow-Origin', process.env.ORIGIN);
+      res.set('Access-Control-Allow-Credentials', 'true');
+      res.set(
+        'Access-Control-Expose-Headers',
+        'date, etag, access-control-allow-origin, access-control-allow-credentials'
+        );
   
       res.json(user)
     } else res.status(401).json({error : 'password is not correct'})
