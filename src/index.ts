@@ -16,7 +16,7 @@ app.use(cors({
 	optionsSuccessStatus: 204,
 	credentials: true,
 	preflightContinue: false,
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }))
 
 app.get('/', (_, res) => res.send('hello world'))

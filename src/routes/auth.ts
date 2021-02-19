@@ -39,7 +39,7 @@ const register = async (req: Request, res: Response) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'strict',
       maxAge: 3600,
       path: '/'
     })
@@ -72,7 +72,7 @@ const login = async (req: Request, res: Response) => {
         cookie.serialize('token', token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
+          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
           maxAge: 3600,
           path: '/',
         })
