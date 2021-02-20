@@ -78,15 +78,15 @@ const login = async (req: Request, res: Response) => {
           domain: 'first-express-orm.herokuapp.com'
         })
       )
-      console.log('ss == ', process.env.ORIGIN)
-      res.set('Access-Control-Allow-Origin', process.env.ORIGIN);
-      res.set('Access-Control-Allow-Credentials', 'true');
-      res.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-      res.set('Access-Control-Request-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-      res.set(
-        'Access-Control-Expose-Headers',
-        'date, etag, access-control-allow-origin, access-control-allow-credentials'
-        );
+      // console.log('ss == ', process.env.ORIGIN)
+      // res.set('Access-Control-Allow-Origin', process.env.ORIGIN);
+      // res.set('Access-Control-Allow-Credentials', 'true');
+      // res.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+      // res.set('Access-Control-Request-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      // res.set(
+      //   'Access-Control-Expose-Headers',
+      //   'date, etag, access-control-allow-origin, access-control-allow-credentials'
+      //   );
   
       res.json(user)
     } else res.status(401).json({error : 'password is not correct'})
