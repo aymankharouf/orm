@@ -75,7 +75,7 @@ const login = async (req: Request, res: Response) => {
           sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
           maxAge: 3600,
           path: '/',
-          domain: 'aymankharouf.github.io'
+          domain: 'first-express-orm.herokuapp.com'
         })
       )
       console.log('ss == ', process.env.ORIGIN)
