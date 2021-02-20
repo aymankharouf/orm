@@ -67,17 +67,13 @@ const login = async (req: Request, res: Response) => {
     const userId = user.id
     if (passwordMatch) {
       const token = jwt.sign({ userId }, process.env.JWT_SECRET)
-      res.set(
-        'Set-Cookie',
-        cookie.serialize('token', token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-          maxAge: 3600,
-          path: '/',
-          domain: 'first-express-orm.herokuapp.com'
-        })
-      )
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        maxAge: 60 * 60 * 1000,
+        path: '/',
+      })
       // console.log('ss == ', process.env.ORIGIN)
       // res.set('Access-Control-Allow-Origin', process.env.ORIGIN);
       // res.set('Access-Control-Allow-Credentials', 'true');
