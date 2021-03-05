@@ -60,8 +60,7 @@ const login = async (req: Request, res: Response) => {
     }
   } catch (err) {
     console.error(err) 
-    console.log('could not find user with this email')
-    res.status(404).json({error: err.message})
+    res.sendStatus(500)
   }
 }
 
