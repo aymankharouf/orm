@@ -48,14 +48,18 @@ const login = async (req: Request, res: Response) => {
     let errors: errorType = {}
     if (isEmpty(email)) errors.email = 'email must be not empty'
     if (isEmpty(password)) errors.password = 'password must be not empty'
-    const user = await User.findOneOrFail({ email })
-    const passwordMatch = await bcrypt.compare(password, user.password)
-    if (passwordMatch) {
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {expiresIn: '60m'})
-      res.json({user, token})
-    } else res.status(401).json({error : 'password is not correct'})
+    const user = await User.findOne({ email })
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.password)
+      if (passwordMatch) {
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {expiresIn: '60m'})
+        res.json({user, token})
+      } else res.sendStatus(401)
+    } else {
+      res.sendStatus(401)
+    }
   } catch (err) {
-    console.error(err)
+    console.error(err) 
     console.log('could not find user with this email')
     res.status(404).json({error: err.message})
   }
